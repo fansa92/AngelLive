@@ -36,6 +36,9 @@ jobs:
             -scheme "AngelLiveMacOS" \
             -configuration ${{ github.event.inputs.build_type }} \
             -sdk macosx \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
             -archivePath build/macos/AngelLive.xcarchive \
             archive
 
@@ -71,10 +74,13 @@ jobs:
             -scheme "AngelLive" \
             -configuration ${{ github.event.inputs.build_type }} \
             -sdk iphoneos \
-            CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
             CODE_SIGN_IDENTITY="" \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            SKIP_INSTALL=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
             archive \
             -archivePath build/ios/AngelLive.xcarchive
 
@@ -109,10 +115,13 @@ jobs:
             -scheme "AngelLiveTVOS" \
             -configuration ${{ github.event.inputs.build_type }} \
             -sdk appletvos \
-            CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
             CODE_SIGN_IDENTITY="" \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            SKIP_INSTALL=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
             archive \
             -archivePath build/tvos/AngelLive_TV.xcarchive
 
