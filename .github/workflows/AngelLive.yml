@@ -30,7 +30,10 @@ jobs:
 
       - name: Build macOS target
         run: |
-          xcodebuild -workspace "AngelLive.xcworkspace" -list
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveMacOS"
+            
           xcodebuild \
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveMacOS" \
@@ -39,7 +42,6 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            -allowProvisioningUpdates \
             -archivePath build/macos/AngelLive.xcarchive \
             archive
 
@@ -70,6 +72,10 @@ jobs:
 
       - name: Build iOS target
         run: |
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLive"
+            
           xcodebuild \
           -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLive" \
@@ -82,7 +88,6 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            -allowProvisioningUpdates \
             archive \
             -archivePath build/ios/AngelLive.xcarchive
 
@@ -112,6 +117,10 @@ jobs:
 
       - name: Build tvOS target
         run: |
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveTVOS"
+            
           xcodebuild \
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveTVOS" \
@@ -124,7 +133,6 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            -allowProvisioningUpdates \
             archive \
             -archivePath build/tvos/AngelLive_TV.xcarchive
 
