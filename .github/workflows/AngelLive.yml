@@ -8,6 +8,10 @@ on:
         required: true
         type: string
         default: '2.0.0'
+      build_type:
+        description: "构建类型"
+        required: true
+        default: "Release"
 
 jobs:
   build-macos:
