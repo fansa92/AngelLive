@@ -33,7 +33,7 @@ jobs:
           xcodebuild -workspace "AngelLive.xcworkspace" -list
           xcodebuild \
             -workspace "AngelLive.xcworkspace" \
-            -scheme "AngelLive-macOS" \
+            -scheme "AngelLiveMacOS" \
             -configuration ${{ github.event.inputs.build_type }} \
             -sdk macosx \
             -archivePath build/macos/AngelLive.xcarchive \
@@ -68,7 +68,7 @@ jobs:
         run: |
           xcodebuild \
           -workspace "AngelLive.xcworkspace" \
-            -scheme "AngelLive-iOS" \
+            -scheme "AngelLive" \
             -configuration ${{ github.event.inputs.build_type }} \
             -sdk iphoneos \
             CODE_SIGNING_ALLOWED=NO \
@@ -106,7 +106,7 @@ jobs:
         run: |
           xcodebuild \
             -workspace "AngelLive.xcworkspace" \
-            -scheme "SimpleLiveTVOS" \
+            -scheme "AngelLiveTVOS" \
             -configuration ${{ github.event.inputs.build_type }} \
             -sdk appletvos \
             CODE_SIGNING_ALLOWED=NO \
