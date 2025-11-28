@@ -41,6 +41,7 @@ jobs:
             -sdk macosx \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
+            -destination 'platform=macOS' \
             -archivePath build/macos/AngelLive.xcarchive \
             archive
 
@@ -86,6 +87,7 @@ jobs:
             # SKIP_INSTALL=NO \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
+            -destination 'platform=iOS'\
             archive \
             -archivePath build/ios/AngelLive.xcarchive
 
@@ -130,6 +132,7 @@ jobs:
             # SKIP_INSTALL=NO \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
+            -destination 'platform=tvOS' \
             archive \
             -archivePath build/tvos/AngelLive_TV.xcarchive
 
