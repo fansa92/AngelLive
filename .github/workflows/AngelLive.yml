@@ -30,6 +30,7 @@ jobs:
 
       - name: Build macOS target
         run: |
+          xcodebuild -workspace "AngelLive.xcworkspace" -list
           xcodebuild \
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLive-macOS" \
