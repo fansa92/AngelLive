@@ -90,10 +90,10 @@ jobs:
             # PROVISIONING_PROFILE_SPECIFIER="" \
             # SKIP_INSTALL=NO \
             # -destination 'platform=iOS' \
-            -archivePath build/ios/AngelLive.xcarchive \
-            archive \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
+            -archivePath build/ios/AngelLive.xcarchive \
+            archive \
             CODE_SIGN_ENTITLEMENTS="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM="" \
@@ -140,10 +140,10 @@ jobs:
             # PROVISIONING_PROFILE_SPECIFIER="" \
             # SKIP_INSTALL=NO \
             # -destination 'platform=tvOS' \
-            -archivePath build/tvos/AngelLive_TV.xcarchive \
-            archive \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
+            -archivePath build/tvos/AngelLive_TV.xcarchive \
+            archive \
             CODE_SIGN_ENTITLEMENTS="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM="" \
