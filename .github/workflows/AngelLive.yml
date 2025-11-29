@@ -86,11 +86,11 @@ jobs:
             # CODE_SIGN_IDENTITY="" \
             # PROVISIONING_PROFILE_SPECIFIER="" \
             # SKIP_INSTALL=NO \
+            -destination 'platform=iOS' \
+            -archivePath build/ios/AngelLive.xcarchive \
+            archive \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            -destination 'platform=iOS'\
-            archive \
-            -archivePath build/ios/AngelLive.xcarchive \
             CODE_SIGNING_ALLOWED=NO
             
 
@@ -133,12 +133,13 @@ jobs:
             # CODE_SIGN_IDENTITY="" \
             # PROVISIONING_PROFILE_SPECIFIER="" \
             # SKIP_INSTALL=NO \
+            -destination 'platform=tvOS' \
+            -archivePath build/tvos/AngelLive_TV.xcarchive \
+            archive \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            -destination 'platform=tvOS' \
-            archive \
-            -archivePath build/tvos/AngelLive_TV.xcarchive \
             CODE_SIGNING_ALLOWED=NO
+            
 
       - name: Export app and zip
         run: |
