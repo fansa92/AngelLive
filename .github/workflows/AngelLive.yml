@@ -34,7 +34,7 @@ jobs:
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveMacOS"
             
-          xcodebuild \
+          xcodebuild clean build \
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveMacOS" \
             -configuration ${{ github.event.inputs.build_type }} \
@@ -77,7 +77,7 @@ jobs:
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLive"
             
-          xcodebuild \
+          xcodebuild clean build \
           -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLive" \
             -configuration ${{ github.event.inputs.build_type }} \
@@ -124,7 +124,7 @@ jobs:
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveTVOS"
             
-          xcodebuild \
+          xcodebuild clean build \
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveTVOS" \
             -configuration ${{ github.event.inputs.build_type }} \
