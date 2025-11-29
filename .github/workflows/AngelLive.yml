@@ -43,7 +43,8 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             -destination 'platform=macOS' \
             -archivePath build/macos/AngelLive.xcarchive \
-            archive
+            archive \
+            CODE_SIGNING_ALLOWED=NO
 
       - name: Export .app and zip
         run: |
@@ -89,7 +90,9 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             -destination 'platform=iOS'\
             archive \
-            -archivePath build/ios/AngelLive.xcarchive
+            -archivePath build/ios/AngelLive.xcarchive \
+            CODE_SIGNING_ALLOWED=NO
+            
 
       - name: Export app and zip
         run: |
@@ -134,7 +137,8 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             -destination 'platform=tvOS' \
             archive \
-            -archivePath build/tvos/AngelLive_TV.xcarchive
+            -archivePath build/tvos/AngelLive_TV.xcarchive \
+            CODE_SIGNING_ALLOWED=NO
 
       - name: Export app and zip
         run: |
