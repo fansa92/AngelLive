@@ -41,7 +41,7 @@ jobs:
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveMacOS" \
             -configuration ${{ github.event.inputs.build_type }} \
-            -sdk macos \
+            -sdk macosx \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             # -destination 'platform=macOS' \
@@ -97,7 +97,7 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             -archivePath build/ios/AngelLive.xcarchive \
-            archive \
+            # archive \
             CODE_SIGN_ENTITLEMENTS="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM="" \
@@ -150,7 +150,7 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             -archivePath build/tvos/AngelLive_TV.xcarchive \
-            archive \
+            # archive \
             CODE_SIGN_ENTITLEMENTS="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM="" \
