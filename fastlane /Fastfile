@@ -81,7 +81,8 @@ platform :mac do
       configuration: "Release",
       clean: true,
       output_directory: "./build/macos",
-      output_name: "AngelLive-macOS"
+      output_name: "AngelLive-macOS",
+      skip_codesigning: true,
     )
   end
 
