@@ -52,7 +52,6 @@ jobs:
           #   DEVELOPMENT_TEAM="" \
           #   CODE_SIGN_STYLE="Manual" \
           #   CODE_SIGNING_ALLOWED=NO
-          fastlane init
           fastlane mac mac_release
 
       - name: Export .app and zip
@@ -109,7 +108,6 @@ jobs:
           #   # CODE_SIGN_STYLE="Manual" \
           #   # CODE_SIGNING_ALLOWED=NO
           #   -allowProvisioningUpdates
-          fastlane init
           fastlane ios build_ios  
           
       - name: Export app and zip
@@ -165,7 +163,6 @@ jobs:
           #   # CODE_SIGN_STYLE="Manual" \
           #   # CODE_SIGNING_ALLOWED=NO
           #   -allowProvisioningUpdates
-          fastlane init
           fastlane tvos build_tvos_unsigned  
             
 
