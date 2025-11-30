@@ -33,26 +33,25 @@ jobs:
       
       - name: Build macOS target
         run: |
-          # xcodebuild -resolvePackageDependencies \
-          #   -workspace "AngelLive.xcworkspace" \
-          #   -scheme "AngelLiveMacOS"
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveMacOS"
             
-          # xcodebuild clean build \
-          #   -workspace "AngelLive.xcworkspace" \
-          #   -scheme "AngelLiveMacOS" \
-          #   -configuration ${{ github.event.inputs.build_type }} \
-          #   -sdk macosx \
-          #   CODE_SIGN_IDENTITY="" \
-          #   CODE_SIGNING_REQUIRED=NO \
-          #   # -destination 'platform=macOS' \
-          #   -archivePath build/macos/AngelLive.xcarchive \
-          #   # archive \
-          #   CODE_SIGN_ENTITLEMENTS="" \
-          #   PROVISIONING_PROFILE_SPECIFIER="" \
-          #   DEVELOPMENT_TEAM="" \
-          #   CODE_SIGN_STYLE="Manual" \
-          #   CODE_SIGNING_ALLOWED=NO
-          fastlane mac mac_release
+          xcodebuild clean build \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveMacOS" \
+            -configuration ${{ github.event.inputs.build_type }} \
+            -sdk macos \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            # -destination 'platform=macOS' \
+            -archivePath build/macos/AngelLive.xcarchive \
+            # archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
 
       - name: Export .app and zip
         run: |
@@ -78,37 +77,32 @@ jobs:
 
       - name: Select Xcode
         run: sudo xcode-select -s "/Applications/Xcode_26.1.app"
-
-      - name: install fastlane
-        run: brew install fastlane
         
       - name: Build iOS target
         run: |
-          # xcodebuild -resolvePackageDependencies \
-          #   -workspace "AngelLive.xcworkspace" \
-          #   -scheme "AngelLive"
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLive"
             
-          # xcodebuild clean build \
-          # -workspace "AngelLive.xcworkspace" \
-          #   -scheme "AngelLive" \
-          #   -configuration ${{ github.event.inputs.build_type }} \
-          #   -sdk iphoneos \
-          #   # CODE_SIGNING_ALLOWED=NO \
-          #   # CODE_SIGN_IDENTITY="" \
-          #   # PROVISIONING_PROFILE_SPECIFIER="" \
-          #   # SKIP_INSTALL=NO \
-          #   # -destination 'platform=iOS' \
-          #   # CODE_SIGN_IDENTITY="" \
-          #   # CODE_SIGNING_REQUIRED=NO \
-          #   # -archivePath build/ios/AngelLive.xcarchive \
-          #   # archive \
-          #   # CODE_SIGN_ENTITLEMENTS="" \
-          #   # PROVISIONING_PROFILE_SPECIFIER="" \
-          #   # DEVELOPMENT_TEAM="" \
-          #   # CODE_SIGN_STYLE="Manual" \
-          #   # CODE_SIGNING_ALLOWED=NO
-          #   -allowProvisioningUpdates
-          fastlane ios build_ios  
+          xcodebuild clean build \
+          -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLive" \
+            -configuration ${{ github.event.inputs.build_type }} \
+            -sdk iphonesimulator \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
+            -destination 'platform=iOS' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            -archivePath build/ios/AngelLive.xcarchive \
+            archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
           
       - name: Export app and zip
         run: |
@@ -139,31 +133,29 @@ jobs:
         
       - name: Build tvOS target
         run: |
-          # xcodebuild -resolvePackageDependencies \
-          #   -workspace "AngelLive.xcworkspace" \
-          #   -scheme "AngelLiveTVOS"
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveTVOS"
             
-          # xcodebuild clean build \
-          #   -workspace "AngelLive.xcworkspace" \
-          #   -scheme "AngelLiveTVOS" \
-          #   -configuration ${{ github.event.inputs.build_type }} \
-          #   -sdk appletvos \
-          #   # CODE_SIGNING_ALLOWED=NO \
-          #   # CODE_SIGN_IDENTITY="" \
-          #   # PROVISIONING_PROFILE_SPECIFIER="" \
-          #   # SKIP_INSTALL=NO \
-          #   # -destination 'platform=tvOS' \
-          #   # CODE_SIGN_IDENTITY="" \
-          #   # CODE_SIGNING_REQUIRED=NO \
-          #   -archivePath build/tvos/AngelLive_TV.xcarchive \
-          #   # archive \
-          #   # CODE_SIGN_ENTITLEMENTS="" \
-          #   # PROVISIONING_PROFILE_SPECIFIER="" \
-          #   # DEVELOPMENT_TEAM="" \
-          #   # CODE_SIGN_STYLE="Manual" \
-          #   # CODE_SIGNING_ALLOWED=NO
-          #   -allowProvisioningUpdates
-          fastlane tvos build_tvos_unsigned  
+          xcodebuild clean build \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveTVOS" \
+            -configuration ${{ github.event.inputs.build_type }} \
+            -sdk appletvsimulator \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
+            -destination 'platform=tvOS' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            -archivePath build/tvos/AngelLive_TV.xcarchive \
+            archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
             
 
       - name: Export app and zip
