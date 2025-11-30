@@ -1,0 +1,99 @@
+# fastlane/Fastfile
+
+default_platform(:ios)
+
+############################
+# iOS 配置
+############################
+platform :ios do
+  desc "Build iOS (device/app-store or ad-hoc) .ipa"
+  lane :build_ios do |options|
+    build_app(
+      workspace: "AngelLive.xcworkspace",
+      scheme: "AngelLive",
+      configuration: "Release",
+     # export_method: options[:export_method] || "app-store",
+      output_directory: "./build/ios",
+      output_name: "AngelLive-iOS.ipa",
+      # skip_package_ipa: true,
+      skip_codesigning: true,
+      clean: true
+    )
+  end
+
+  desc "Build iOS simulator (just build, no .ipa)"
+  lane :build_ios_simulator do
+    build_app(
+      workspace: "AngelLive.xcworkspace",
+      scheme: "AngelLive",
+      # destination: "platform=iOS Simulator,name=iPhone 14",
+      skip_package_ipa: true,
+      skip_codesigning: true,
+      clean: true
+    )
+  end
+end
+
+############################
+# tvOS 配置
+############################
+platform :tvos do
+  desc "Build tvOS simulator (just build, for testing)"
+  lane :build_tvos_simulator do
+    build_app(
+      workspace: "AngelLive.xcworkspace",
+      scheme: "AngelLiveTVOS",
+      destination: "platform=tvOS Simulator,name=Apple TV 4K",
+      skip_package_ipa: true,
+      skip_codesigning: true,
+      clean: true
+    )
+  end
+
+  desc "Build unsigned tvOS .ipa (generic/platform=tvOS)"
+  lane :build_tvos_unsigned do
+    build_app(
+      workspace: "AngelLive.xcworkspace",
+      scheme: "AngelLiveTVOS",
+      destination: "generic/platform=tvOS",
+      configuration: "Release",
+      skip_codesigning: true,
+      skip_package_ipa: true,
+      archive_path: "AngelLivetv.xcarchive",
+      clean: true
+    )
+    sh "mv AngelLivetv.xcarchive/Products/Applications ./Payload"
+    zip(path: "./Payload", output_path: "AngelLive-tvOS")
+    sh "mv YourApp-tvOS.zip YourApp-tvOS.ipa"
+    sh "rm -rf Payload *.xcarchive *.zip || true"
+  end
+end
+
+############################
+# macOS 配置
+############################
+platform :mac do
+  desc "Build macOS app (archive and pkg or zipped .app)"
+  lane :build_macos do
+    build_mac_app(
+      workspace: "AngelLive.xcworkspace",   # 如果你的 macOS target 和 iOS/tvOS 在同一个 workspace
+      scheme: "AngelLiveMacOS",            # macOS 的 scheme 名
+      configuration: "Release",
+      clean: true,
+      output_directory: "./build/macos",
+      output_name: "AngelLive-macOS"
+    )
+  end
+
+  desc "Package macOS .app to .zip (for distribution)"
+  lane :package_macos do
+    sh "rm -rf build/macos/*.zip || true"
+    sh "cd build/macos && zip -r YourApp-macOS.zip YourApp-macOS.app"
+  end
+
+  desc "Build + package macOS"
+  lane :mac_release do
+    build_macos
+    package_macos
+  end
+end
