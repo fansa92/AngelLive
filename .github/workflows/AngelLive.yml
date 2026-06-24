@@ -54,7 +54,8 @@ jobs:
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM="" \
             CODE_SIGN_STYLE="Manual" \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            OTHER_SWIFT_FLAGS="-D MOCK_CLOUDKIT"   # 可配合条件编译
       - name: Export .app and zip
         run: |
           mkdir -p output/macos
@@ -115,7 +116,8 @@ jobs:
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM="" \
             CODE_SIGN_STYLE="Manual" \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            OTHER_SWIFT_FLAGS="-D MOCK_CLOUDKIT"   # 可配合条件编译
           
       - name: Export app and zip
         run: |
@@ -177,7 +179,8 @@ jobs:
             PROVISIONING_PROFILE_SPECIFIER="" \
             DEVELOPMENT_TEAM="" \
             CODE_SIGN_STYLE="Manual" \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            OTHER_SWIFT_FLAGS="-D MOCK_CLOUDKIT"   # 可配合条件编译
             
       - name: Export app and zip
         run: |
