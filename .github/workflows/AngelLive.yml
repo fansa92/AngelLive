@@ -1,0 +1,170 @@
+name: Build AngelLive
+
+on:
+  workflow_dispatch:                # 手动触发
+    inputs:
+      tag:
+        description: 'Release version tag (e.g. v1.0.0)'
+        required: true
+        type: string
+        default: '2.0.0'
+      build_type:
+        description: "构建类型"
+        required: true
+        default: "Release"
+
+jobs:
+  build-macos:
+    name: Build macOS App
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # with:
+        #   repository: pcccccc/AngelLive
+        #   fetch-depth: 0
+
+      - name: Select Xcode
+        run: sudo xcode-select -s "/Applications/Xcode_26.1.app"
+
+      - name: install fastlane
+        run: brew install fastlane
+      
+      - name: Build macOS target
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveMacOS"
+            
+          xcodebuild clean build \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveMacOS" \
+            -configuration ${{ github.event.inputs.build_type }} \
+            -sdk macosx \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            # -destination 'platform=macOS' \
+            -archivePath build/macos/AngelLive.xcarchive \
+            # archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Export .app and zip
+        run: |
+          mkdir -p output/macos
+          cp -R build/macos/AngelLive.xcarchive/Products/Applications/*.app output/macos/
+          cd output/macos && zip -r AngelLive_macOS.zip *.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AngelLive-macOS-${{ github.event.inputs.tag }}
+          path: output/macos/*.zip
+
+  build-ios:
+    name: Build iOS App (No Signing)
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        # with:
+        #   repository: pcccccc/AngelLive
+        #   fetch-depth: 0
+
+      - name: Select Xcode
+        run: sudo xcode-select -s "/Applications/Xcode_26.1.app"
+        
+      - name: Build iOS target
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLive"
+            
+          xcodebuild clean build \
+          -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLive" \
+            -configuration ${{ github.event.inputs.build_type }} \
+            -sdk iphonesimulator \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
+            -destination 'platform=iOS' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            -archivePath build/ios/AngelLive.xcarchive \
+            # archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
+          
+      - name: Export app and zip
+        run: |
+          mkdir -p output/ios
+          cp -R build/ios/AngelLive.xcarchive/Products/Applications/*.app output/ios/
+          cd output/ios && zip -r AngelLive_iOS.zip *.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AngelLive-iOS-${{ github.event.inputs.tag }}
+          path: output/ios/*.zip
+
+  build-tvos:
+    name: Build tvOS App (No Signing)
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        # with:
+        #   repository: pcccccc/AngelLive
+        #   fetch-depth: 0
+
+      - name: Select Xcode
+        run: sudo xcode-select -s "/Applications/Xcode_26.1.app"
+
+      - name: install fastlane
+        run: brew install fastlane
+        
+      - name: Build tvOS target
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveTVOS"
+            
+          xcodebuild clean build \
+            -workspace "AngelLive.xcworkspace" \
+            -scheme "AngelLiveTVOS" \
+            -configuration ${{ github.event.inputs.build_type }} \
+            -sdk appletvsimulator \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
+            -destination 'platform=tvOS' \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            -archivePath build/tvos/AngelLive_TV.xcarchive \
+            # archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
+            
+
+      - name: Export app and zip
+        run: |
+          mkdir -p output/tvos
+          cp -R build/tvos/AngelLive_TV.xcarchive/Products/Applications/*.app output/tvos/
+          cd output/tvos && zip -r AngelLive_tvOS.zip *.app
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AngelLive-tvOS-${{ github.event.inputs.tag }}
+          path: output/tvos/*.zip
