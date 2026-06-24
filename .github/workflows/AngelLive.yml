@@ -12,12 +12,15 @@ on:
         description: "构建类型"
         required: true
         default: "Release"
+  
 
 jobs:
   build-macos:
     name: Build macOS App
     runs-on: macos-latest
-
+    # 在整个 Job 中设置环境变量
+    env:
+      USE_VLC: 1
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -57,24 +60,36 @@ jobs:
         run: |
           mkdir -p output/macos
           cp -R build/macos/AngelLive.xcarchive/Products/Applications/*.app output/macos/
-          cd output/macos && zip -r AngelLive_macOS.zip *.app
+          # cd output/macos && zip -r AngelLive_macOS.zip *.app
+          cd output/macos && mv *.app  AngelLive-macOS-${{ github.event.inputs.tag }}.app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: AngelLive-macOS-${{ github.event.inputs.tag }}
-          path: output/macos/*.zip
-
+          path: output/macos/*.app
+      - name: 创建 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "AngelLive-${{ github.event.inputs.tag }}"
+          name: "AngelLive-${{ github.event.inputs.tag }}"
+          files: "output/macos/*.app"
+          # draft: false
+          # prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-ios:
     name: Build iOS App (No Signing)
     runs-on: macos-latest
-
+    env:
+      USE_VLC: 1
     steps:
       - uses: actions/checkout@v4
         # with:
         #   repository: pcccccc/AngelLive
         #   fetch-depth: 0
-
+      # 在整个 Job 中设置环境变量
+        
       - name: Select Xcode
         run: sudo xcode-select -s "/Applications/Xcode_26.1.app"
         
@@ -108,17 +123,27 @@ jobs:
         run: |
           mkdir -p output/ios
           cp -R build/ios/AngelLive.xcarchive/Products/Applications/*.app output/ios/
-          cd output/ios && zip -r AngelLive_iOS.zip *.app
+          cd output/ios && zip -r AngelLive-iOS-${{ github.event.inputs.tag }}.ipa *.app
 
       - uses: actions/upload-artifact@v4
         with:
           name: AngelLive-iOS-${{ github.event.inputs.tag }}
-          path: output/ios/*.zip
-
+          path: output/ios/*.ipa
+      - name: 创建 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "AngelLive-${{ github.event.inputs.tag }}"
+          name: "AngelLive-${{ github.event.inputs.tag }}"
+          files: "output/macos/*.ipa"
+          # draft: false
+          # prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build-tvos:
     name: Build tvOS App (No Signing)
     runs-on: macos-latest
-
+    env:
+      USE_VLC: 1
     steps:
       - uses: actions/checkout@v4
         # with:
@@ -162,9 +187,19 @@ jobs:
         run: |
           mkdir -p output/tvos
           cp -R build/tvos/AngelLive_TV.xcarchive/Products/Applications/*.app output/tvos/
-          cd output/tvos && zip -r AngelLive_tvOS.zip *.app
+          cd output/tvos && zip -r AngelLive-tvOS-${{ github.event.inputs.tag }}.ipa *.app
 
       - uses: actions/upload-artifact@v4
         with:
           name: AngelLive-tvOS-${{ github.event.inputs.tag }}
-          path: output/tvos/*.zip
+          path: output/tvos/*.ipa
+      - name: 创建 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "AngelLive-${{ github.event.inputs.tag }}"
+          name: "AngelLive-${{ github.event.inputs.tag }}"
+          files: "output/macos/*.ipa"
+          # draft: false
+          # prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
