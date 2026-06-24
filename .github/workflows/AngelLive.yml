@@ -45,27 +45,22 @@ jobs:
             -scheme "AngelLiveMacOS" \
             -configuration ${{ github.event.inputs.build_type }} \
             -sdk macosx \
-            -configuration Release \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            # CODE_SIGN_STYLE="Manual" \
-            # DEVELOPMENT_TEAM="" \
-            # CODE_SIGN_ENTITLEMENTS="" \
-            -allowProvisioningUpdates \
-            CODE_SIGN_IDENTITY="" \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            SKIP_INSTALL=NO \
+            # -destination 'platform=macOS' \
             -archivePath build/macos/AngelLive.xcarchive \
-            archive
-
+            # archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
       - name: Export .app and zip
         run: |
           mkdir -p output/macos
           cp -R build/macos/AngelLive.xcarchive/Products/Applications/*.app output/macos/
           # cd output/macos && zip -r AngelLive_macOS.zip *.app
           cd output/macos && mv *.app  AngelLive-macOS-${{ github.event.inputs.tag }}.app
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
@@ -103,29 +98,30 @@ jobs:
             -scheme "AngelLive"
             
           xcodebuild clean build \
-            -workspace "AngelLive.xcworkspace" \
+          -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLive" \
             -configuration ${{ github.event.inputs.build_type }} \
-            -sdk iphoneos \
-            -configuration Release \
+            -sdk iphonesimulator \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
+            -destination 'platform=iOS' \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            # CODE_SIGN_STYLE="Manual" \
-            # DEVELOPMENT_TEAM="" \
-            # CODE_SIGN_ENTITLEMENTS="" \
-            -allowProvisioningUpdates \
-            CODE_SIGN_IDENTITY="" \
-            PROVISIONING_PROFILE_SPECIFIER="" \
-            SKIP_INSTALL=NO \
             -archivePath build/ios/AngelLive.xcarchive \
-            archive
+            # archive \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
+          
       - name: Export app and zip
         run: |
           mkdir -p output/ios
           cp -R build/ios/AngelLive.xcarchive/Products/Applications/*.app output/ios/
           cd output/ios && zip -r AngelLive-iOS-${{ github.event.inputs.tag }}.ipa *.app
-
       - uses: actions/upload-artifact@v4
         with:
           name: AngelLive-iOS-${{ github.event.inputs.tag }}
@@ -167,26 +163,27 @@ jobs:
             -workspace "AngelLive.xcworkspace" \
             -scheme "AngelLiveTVOS" \
             -configuration ${{ github.event.inputs.build_type }} \
-            -sdk appletvos \
-            -configuration Release \
+            -sdk appletvsimulator \
+            # CODE_SIGNING_ALLOWED=NO \
+            # CODE_SIGN_IDENTITY="" \
+            # PROVISIONING_PROFILE_SPECIFIER="" \
+            # SKIP_INSTALL=NO \
+            -destination 'platform=tvOS' \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
-            # CODE_SIGN_STYLE="Manual" \
-            # DEVELOPMENT_TEAM="" \
-            # CODE_SIGN_ENTITLEMENTS="" \
-            -allowProvisioningUpdates \
-            CODE_SIGN_IDENTITY="" \
+            -archivePath build/tvos/AngelLive_TV.xcarchive \
+            # archive \
+            CODE_SIGN_ENTITLEMENTS="" \
             PROVISIONING_PROFILE_SPECIFIER="" \
-            SKIP_INSTALL=NO \
-            -archivePath build/ios/AngelLive.xcarchive \
-            archive
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_STYLE="Manual" \
+            CODE_SIGNING_ALLOWED=NO
+            
       - name: Export app and zip
         run: |
           mkdir -p output/tvos
           cp -R build/tvos/AngelLive_TV.xcarchive/Products/Applications/*.app output/tvos/
           cd output/tvos && zip -r AngelLive-tvOS-${{ github.event.inputs.tag }}.ipa *.app
-
       - uses: actions/upload-artifact@v4
         with:
           name: AngelLive-tvOS-${{ github.event.inputs.tag }}
